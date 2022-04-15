@@ -10,4 +10,4 @@
 * Marks as `###< doctrine/doctrine-bundle ###` were added by the recipes/packages. Then is easily to remove also when
 the package will be removed.
 
-*
+* Using Docker&DockerCompose remember to use the same network and hosts names for connections between them.
