@@ -6,3 +6,8 @@
 * `.env` is committed but locally you can use `.env.local` 
 
 * Possibility to configure xdebug to show file in IDE `https://symfony.com/doc/current/the-fast-track/en/5-debug.html#configuring-your-ide`
+
+* Marks as `###< doctrine/doctrine-bundle ###` were added by the recipes/packages. Then is easily to remove also when
+the package will be removed.
+
+*
