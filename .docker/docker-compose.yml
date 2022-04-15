@@ -1,25 +1,30 @@
 version: '3.8'
 
 services:
-  db:
-    container_name: db_portal
-    image: mysql:8
+  ###> doctrine/doctrine-bundle ###
+  database:
+    image: postgres:${POSTGRES_VERSION:-13}-alpine
     environment:
-      MYSQL_ROOT_PASSWORD: ${ROOT_PASSWORD:-password}
-      MYSQL_DATABASE: ${DB_NAME:-fast_track}
-      MYSQL_USER: ${DB_USER:-developer}
-      MYSQL_PASSWORD: ${DB_PASSWORD:-dbpassword}
+      POSTGRES_DB: ${POSTGRES_DB:-app}
+      # You should definitely change the password in production
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-passworddb}
+      POSTGRES_USER: ${POSTGRES_USER:-symfony}
+    volumes:
+    # - db-data:/var/lib/postgresql/data:rw
+    # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
+      - ./docker/db/data:/var/lib/postgresql/data:rw
     ports:
-      - "3306:3306"
+      - "5432"
     networks:
       - fast_track_network
+  ###< doctrine/doctrine-bundle ###
 
   php-fpm:
     container_name: php-fpm
     build:
       context: php
     depends_on:
-      - db
+      - database
     volumes:
       - ./../:/var/www
     expose:
