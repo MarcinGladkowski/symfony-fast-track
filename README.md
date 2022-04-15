@@ -4,3 +4,5 @@
 * Creating new Symfony project using CLI tool. Just execute `symfony new <new_project_dir> --webapp`
 * Installed `composer require --dev symfony/profiler-pack`
 * `.env` is committed but locally you can use `.env.local` 
+
+* Possibility to configure xdebug to show file in IDE `https://symfony.com/doc/current/the-fast-track/en/5-debug.html#configuring-your-ide`
