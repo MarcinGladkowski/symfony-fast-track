@@ -11,3 +11,9 @@
 the package will be removed.
 
 * Using Docker&DockerCompose remember to use the same network and hosts names for connections between them.
+
+* Cannot autowire entity (because the entites are excluded from services file): https://symfony.com/doc/current/the-fast-track/en/10-twig.html#creating-the-page-for-a-conference
+
+* format_date() missing function wasn't resolved by isntalled `symfony composer req "twig/intl-extra:^3"` but `composer require twig/extra-bundle`
+
+* Using `path()` to generate links instead of hard coding path `/conference/`
