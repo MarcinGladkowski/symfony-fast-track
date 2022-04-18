@@ -24,15 +24,15 @@ class ConferenceController extends AbstractController
         ]));
     }
 
-    #[Route('/conference/{id}', name: 'conference')]
+    #[Route('/conference/{slug}', name: 'conference')]
     public function show(
         Request $request,
-        int $id,
+        string $slug,
         ConferenceRepository $conferenceRepository,
         CommentRepository $commentRepository
     )
     {
-        $conference = $this->getConference($conferenceRepository, $id);
+        $conference = $this->getConference($conferenceRepository, $slug);
 
         $offset = max(0, $request->query->getInt('offset'));
         $paginator = $commentRepository->getPaginator($conference, $offset);
@@ -50,11 +50,11 @@ class ConferenceController extends AbstractController
 
     /**
      * @param ConferenceRepository $conferenceRepository
-     * @param int $id
+     * @param string $slug
      * @return Conference|null
      */
-    public function getConference(ConferenceRepository $conferenceRepository, int $id): ?Conference
+    public function getConference(ConferenceRepository $conferenceRepository, string $slug): ?Conference
     {
-        return $conferenceRepository->find($id);
+        return $conferenceRepository->findOneBy(['slug' => $slug]);
     }
 }

@@ -49,3 +49,8 @@ the package will be removed.
       * security.switch_user (Symfony\Component\Security\Http\Event\SwitchUserEvent)
     ```
     
+* ### Dependency Injection Container
+  * Entities are Data Object and its not be right to inject them as services
+  * Previously auto generated event subscriber was instantiated by framework because of the interface
+    which class implements. Interface tells framework how to create service.
+  * Symfony Services Cheat Sheet: `https://github.com/andreia/symfony-cheat-sheets/blob/master/Symfony4/services_en_42.pdf`
