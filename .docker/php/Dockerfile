@@ -8,7 +8,7 @@ RUN apt-get update \
 RUN wget https://get.symfony.com/cli/installer -O - | bash
 RUN mv /root/.symfony/bin/symfony /usr/local/bin/symfony
 
-RUN apt-get update && apt install -y libpq-dev && docker-php-ext-install pdo pdo_mysql pdo_pgsql xsl zip
+RUN apt-get update && apt install -y libpq-dev && docker-php-ext-install pdo pdo_mysql pdo_pgsql xsl zip dom
 
 RUN apt -y update \
 	&& apt install -y libicu-dev \
