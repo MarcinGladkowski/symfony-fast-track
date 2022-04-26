@@ -7,7 +7,9 @@ use App\Entity\Conference;
 use App\Form\CommentFormType;
 use App\Repository\CommentRepository;
 use App\Repository\ConferenceRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -15,7 +17,10 @@ use Twig\Environment;
 
 class ConferenceController extends AbstractController
 {
-    public function __construct(private Environment $twig)
+    public function __construct(
+        private Environment $twig,
+        private EntityManagerInterface $entityManager
+    )
     {}
 
     #[Route('/', name: 'homepage')]
@@ -31,13 +36,36 @@ class ConferenceController extends AbstractController
         Request $request,
         string $slug,
         ConferenceRepository $conferenceRepository,
-        CommentRepository $commentRepository
+        CommentRepository $commentRepository,
+        string $photoDir
     )
     {
         $conference = $this->getConference($conferenceRepository, $slug);
 
         $comment = new Comment();
         $form = $this->createForm(CommentFormType::class, $comment);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted()) {
+            $comment->setConference($conference);
+
+            if ($photo = $form['photoFilename']->getData()) {
+                $filename = bin2hex(random_bytes(6) . '.' . $photo->guessExtension());
+
+                try {
+                    $photo->move($photoDir, $filename);
+                } catch (FileException $e) {
+                    throw $e;
+                    // unable to upload the photo, give up
+                }
+                $comment->setPhotoFilename($filename);
+            }
+
+            $this->entityManager->persist($comment);
+            $this->entityManager->flush();
+
+            $this->redirectToRoute('conference', ['slug' => $conference->getSlug()]);
+        }
 
         $offset = max(0, $request->query->getInt('offset'));
         $paginator = $commentRepository->getPaginator($conference, $offset);

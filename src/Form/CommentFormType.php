@@ -20,6 +20,7 @@ class CommentFormType extends AbstractType
                 'label' => 'Your name'
             ])
             ->add('email', EmailType::class)
+            ->add('text')
             ->add('photoFilename', FileType::class, [
                 'required' => false,
                 'mapped'   => false,
