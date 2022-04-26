@@ -32,22 +32,10 @@ the package will be removed.
       * Symfony\Component\Security\Http\Event\CheckPassportEvent (Symfony\Component\Security\Http\Event\CheckPassportEvent)
       * Symfony\Component\Security\Http\Event\LoginSuccessEvent (Symfony\Component\Security\Http\Event\LoginSuccessEvent)
       * Symfony\Component\Security\Http\Event\LogoutEvent (Symfony\Component\Security\Http\Event\LogoutEvent)
-      * console.command (Symfony\Component\Console\Event\ConsoleCommandEvent)
-      * console.error (Symfony\Component\Console\Event\ConsoleErrorEvent)
-      * console.terminate (Symfony\Component\Console\Event\ConsoleTerminateEvent)
-      * debug.security.authorization.vote (Symfony\Component\Security\Core\Event\VoteEvent)
-      * kernel.controller (Symfony\Component\HttpKernel\Event\ControllerEvent)
-      * kernel.controller_arguments (Symfony\Component\HttpKernel\Event\ControllerArgumentsEvent)
-      * kernel.exception (Symfony\Component\HttpKernel\Event\ExceptionEvent)
-      * kernel.finish_request (Symfony\Component\HttpKernel\Event\FinishRequestEvent)
-      * kernel.request (Symfony\Component\HttpKernel\Event\RequestEvent)
-      * kernel.response (Symfony\Component\HttpKernel\Event\ResponseEvent)
-      * kernel.terminate (Symfony\Component\HttpKernel\Event\TerminateEvent)
-      * kernel.view (Symfony\Component\HttpKernel\Event\ViewEvent)
-      * security.authentication.success (Symfony\Component\Security\Core\Event\AuthenticationSuccessEvent)
-      * security.interactive_login (Symfony\Component\Security\Http\Event\InteractiveLoginEvent)
-      * security.switch_user (Symfony\Component\Security\Http\Event\SwitchUserEvent)
+      ... and more ...
     ```
+  * Examples of debugging it in console: ```php bin/console debug:event-dispatcher```
+  * Or specific event ```php bin/console debug:event-dispatcher kernel.exception```
     
 * ### Dependency Injection Container
   * Entities are Data Object and its not be right to inject them as services
