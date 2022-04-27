@@ -56,3 +56,11 @@ the package will be removed.
   }
   ```
   * In Symfony components like http you can find classes to mock it easily. For ex. `MockHttpClient`
+  * Creating a separate DB for tests, for development just create new database on db container.
+  * Command: ```php bin/console doctrine:database:create --env=test``` creates test database
+  ```bash
+  Created database "app_test" for connection named default
+  ```
+  then migrate it ```php bin/console doctrine:migrations:migrate -n --env=test```
+  * Executing ```php bin/phpunit``` set test env to scope, and using testing database app_test 
+  (find it without DATABASE_URL in .env.test)
