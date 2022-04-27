@@ -7,6 +7,7 @@ use App\Entity\Conference;
 use App\Form\CommentFormType;
 use App\Repository\CommentRepository;
 use App\Repository\ConferenceRepository;
+use App\SpamChecker;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -19,7 +20,7 @@ class ConferenceController extends AbstractController
 {
     public function __construct(
         private Environment $twig,
-        private EntityManagerInterface $entityManager
+        private EntityManagerInterface $entityManager,
     )
     {}
 
@@ -37,7 +38,8 @@ class ConferenceController extends AbstractController
         string $slug,
         ConferenceRepository $conferenceRepository,
         CommentRepository $commentRepository,
-        string $photoDir
+        string $photoDir,
+        SpamChecker $spamChecker
     )
     {
         $conference = $this->getConference($conferenceRepository, $slug);
@@ -63,6 +65,16 @@ class ConferenceController extends AbstractController
 
             $this->entityManager->persist($comment);
             $this->entityManager->flush();
+
+            $context = [
+                'user_ip' => $request->getClientIp(),
+                'user_agent' => $request->headers->get('user-agent'),
+                'referrer' => $request->headers->get('referer'),
+                'permalink' => $request->getUri(),
+            ];
+            if (2 === $spamChecker->getSpamScore($comment, $context)) {
+                throw new \RuntimeException('Blatant spam, go away!');
+            }
 
             $this->redirectToRoute('conference', ['slug' => $conference->getSlug()]);
         }
