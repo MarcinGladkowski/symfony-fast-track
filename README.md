@@ -42,3 +42,17 @@ the package will be removed.
   * Previously auto generated event subscriber was instantiated by framework because of the interface
     which class implements. Interface tells framework how to create service.
   * Symfony Services Cheat Sheet: `https://github.com/andreia/symfony-cheat-sheets/blob/master/Symfony4/services_en_42.pdf`
+
+* ### Testing
+  * Writing `dataProviders` functions. You haven't return a simple array. It's a `iterable` type hint. It's mean you 
+  can simple write more readable generator using yield keyword instead on multiple nested array. For ex.
+  ```php
+  public function someDataProvider(): iterable``
+  {
+    // buid some data
+    yield 'key' => 'data1'
+  
+    yield 'key' => 'data2'
+  }
+  ```
+  * In Symfony components like http you can find classes to mock it easily. For ex. `MockHttpClient`
