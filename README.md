@@ -64,3 +64,8 @@ the package will be removed.
   then migrate it ```php bin/console doctrine:migrations:migrate -n --env=test```
   * Executing ```php bin/phpunit``` set test env to scope, and using testing database app_test 
   (find it without DATABASE_URL in .env.test)
+
+* ### Messenger
+  * `NessageHandlerInterface` is a marker interface.
+  * Uncomment also async transport and env from .env file! https://symfony.com/doc/current/the-fast-track/en/18-async.html#going-async-for-real
+  * 
