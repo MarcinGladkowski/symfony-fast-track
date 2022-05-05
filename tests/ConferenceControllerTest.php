@@ -26,9 +26,8 @@ class ConferenceControllerTest extends WebTestCase
             'comment_form[email]' => 'me@automat.ed',
             'comment_form[photoFilename]' => dirname(__DIR__, 2).'/public/images/under-construction.gif',
         ]);
-        self::assertResponseRedirects();
-        $client->followRedirect();
-        self::assertSelectorExists('div:contains("There are 2 comments")');
+
+        self::assertSelectorExists('div:contains("There are 2 comments.")');
     }
 
     public function testConferencePage()
