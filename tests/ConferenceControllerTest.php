@@ -3,12 +3,16 @@
 namespace App\Tests;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\Panther\PantherTestCase;
 
 class ConferenceControllerTest extends WebTestCase
 {
     public function testSomething(): void
     {
-        $client = self::createClient();
+        // in case of using Panther
+        // $client = static::createPantherClient(['external_base_uri' => 'localhost']);
+
+        $client = static::createClient();
 
         $client->request('GET', '/');
 
