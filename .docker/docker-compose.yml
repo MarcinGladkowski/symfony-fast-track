@@ -1,7 +1,6 @@
 version: '3.8'
 
 services:
-  ###> doctrine/doctrine-bundle ###
   db:
     image: postgres:${POSTGRES_VERSION:-13}-alpine
     environment:
@@ -17,7 +16,6 @@ services:
       - "5432:5432"
     networks:
       - fast_track_network
-  ###< doctrine/doctrine-bundle ###
 
   php-fpm:
     build:
@@ -47,5 +45,10 @@ services:
     networks:
       - fast_track_network
 
+  mailer:
+    image: schickling/mailcatcher
+    ports: [ 1025, 1080 ]
+    networks:
+      - fast_track_network
 networks:
   fast_track_network:
