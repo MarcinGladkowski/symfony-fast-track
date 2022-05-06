@@ -68,4 +68,6 @@ the package will be removed.
 * ### Messenger
   * `NessageHandlerInterface` is a marker interface.
   * Uncomment also async transport and env from .env file! https://symfony.com/doc/current/the-fast-track/en/18-async.html#going-async-for-real
-  * 
+
+* ### Workflow
+  * Workflow component to managing transitions
