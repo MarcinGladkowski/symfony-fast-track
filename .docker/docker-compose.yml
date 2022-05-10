@@ -47,7 +47,9 @@ services:
 
   mailer:
     image: schickling/mailcatcher
-    ports: [ 1025, 1080 ]
+    ports:
+      - "1025:1025"
+      - "1080:1080"
     networks:
       - fast_track_network
 networks:
