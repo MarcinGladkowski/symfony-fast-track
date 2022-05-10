@@ -27,12 +27,24 @@ class ConferenceController extends AbstractController
     )
     {}
 
+    #[Route('/conference_header', name: 'conference_header')]
+    public function conferenceHeader(ConferenceRepository $conferenceRepository): Response
+    {
+        return new Response($this->twig->render('conference/header.html.twig', [
+            'conferences' => $conferenceRepository->findAll(),
+        ]));
+    }
+
     #[Route('/', name: 'homepage')]
     public function index(ConferenceRepository $conferenceRepository): Response
     {
-        return new Response($this->twig->render('conference/index.html.twig', [
+        $response =  new Response($this->twig->render('conference/index.html.twig', [
             'conferences' => $conferenceRepository->findAll(),
         ]));
+
+        $response->setSharedMaxAge(3600);
+
+        return $response;
     }
 
     #[Route('/conference/{slug}', name: 'conference')]
@@ -84,7 +96,7 @@ class ConferenceController extends AbstractController
         $offset = max(0, $request->query->getInt('offset'));
         $paginator = $commentRepository->getPaginator($conference, $offset);
 
-        return new Response(
+        $response = new Response(
           $this->twig->render('conference/show.html.twig', [
               'conference' => $conference,
               'conferences' => $conferenceRepository->findAll(),
@@ -94,6 +106,10 @@ class ConferenceController extends AbstractController
               'comment_form' => $form->createView(),
           ])
         );
+
+        $response->setSharedMaxAge(3600);
+
+        return $response;
     }
 
     /**

@@ -17,6 +17,8 @@
 <body>
 <header>
     <h1><a href="{{ path('homepage') }}">Guestbook</a></h1>
+    {{ render_esi(path('conference_header')) }}
+    <hr/>
     <ul>
         {% for conference in conferences %}
             <li><a href="{{ path('conference', { slug: conference.slug }) }}">{{ conference }}</a></li>

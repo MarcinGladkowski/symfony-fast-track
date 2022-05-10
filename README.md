@@ -71,3 +71,9 @@ the package will be removed.
 
 * ### Workflow
   * Workflow component to managing transitions
+
+* ### Caching
+  * `setSharedMaxAge()` for reverse proxy cache
+  * `setMaxAge()` for browser cache
+  * Cache header `x-symfony-cache:` on statuses: `:miss`, `:fresh`, `:store`
+  * methods: ['PURGE']. This method not exists in RFC but is implementing by caching tools like Varnish
