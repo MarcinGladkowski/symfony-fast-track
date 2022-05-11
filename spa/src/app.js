@@ -1,4 +1,4 @@
-import { render } from 'preact';
+import {h, render} from 'preact';
 
 function App() {
     return (
@@ -6,4 +6,4 @@ function App() {
     )
 }
 
-render(App, document.getElementById('app'));
+render(App(), document.getElementById('app'));
