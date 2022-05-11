@@ -7,3 +7,6 @@ tests:
 
 build-php:
 	docker-compose build php-fpm
+
+npm-install:
+	npm install --registry=https://registry.npmjs.org/
