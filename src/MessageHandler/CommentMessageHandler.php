@@ -8,12 +8,14 @@ use App\ImageOptimizer;
 use App\Message\CommentMessage;
 use App\Repository\CommentRepository;
 use App\SpamChecker;
+use CommentAcceptNotification;
 use CommentReviewNotification;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Notifier\NotifierInterface;
+use Symfony\Component\Notifier\Recipient\Recipient;
 use Symfony\Component\Workflow\WorkflowInterface;
 
 class CommentMessageHandler implements MessageHandlerInterface
@@ -54,7 +56,14 @@ class CommentMessageHandler implements MessageHandlerInterface
         } elseif ($this->commentStateMachine->can($comment, 'publish') || $this->commentStateMachine->can($comment, 'publish_ham')) {
 
             $notification = new CommentReviewNotification($comment, $message->getReviewUrl());
+
             $this->notifier->send($notification, ...$this->notifier->getAdminRecipients());
+
+            $recipient = new Recipient(
+                $comment->getEmail(),
+            );
+
+            $this->notifier->send(new CommentAcceptNotification($comment), $recipient);
 
         } elseif ($this->commentStateMachine->can($comment, 'optimize')) {
             if ($comment->getPhotoFilename()) {

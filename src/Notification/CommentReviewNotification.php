@@ -25,8 +25,6 @@ class CommentReviewNotification extends Notification implements EmailNotificatio
     {
         $this->comment = $comment;
         $this->reviewUrl = $reviewUrl;
-
-
         parent::__construct('New comment posted');
     }
 
