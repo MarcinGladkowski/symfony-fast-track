@@ -2,42 +2,61 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Repository\CommentRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: CommentRepository::class)]
+#[ApiResource(
+    collectionOperations: ['get' => ['normalization_context' => ['groups' => 'comment:list']]],
+    itemOperations: ['get' => ['normalization_context' => ['groups' => 'comment:item']]],
+    order: ['createdAt' => 'DESC'],
+    paginationEnabled: false,
+)]
+#[ApiFilter(SearchFilter::class, properties: ['conference' => 'exact'])]
 class Comment
 {
+    #[Groups(['comment:list', 'comment:item'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
     private $id;
 
+    #[Groups(['comment:list', 'comment:item'])]
     #[Assert\NotBlank]
     #[ORM\Column(type: 'string', length: 255)]
     private $author;
 
+    #[Groups(['comment:list', 'comment:item'])]
     #[Assert\NotBlank]
     #[ORM\Column(type: 'text')]
     private $text;
 
+    #[Groups(['comment:list', 'comment:item'])]
     #[Assert\NotBlank]
     #[Assert\Email]
     #[ORM\Column(type: 'string', length: 255)]
     private $email;
 
+    #[Groups(['comment:list', 'comment:item'])]
     #[ORM\Column(type: 'datetime_immutable')]
     private $createdAt;
 
+    #[Groups(['comment:list', 'comment:item'])]
     #[ORM\ManyToOne(targetEntity: Conference::class, inversedBy: 'comments')]
     #[ORM\JoinColumn(nullable: false)]
     private Conference $conference;
 
+    #[Groups(['comment:list', 'comment:item'])]
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $photoFilename;
 
+    #[Groups(['comment:list', 'comment:item'])]
     #[ORM\Column(type: 'string', length: 255, options: ['default' => 'submitted'])]
     private $state = 'submitted';
 

@@ -2,35 +2,48 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\ConferenceRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\String\Slugger\SluggerInterface;
-use Doctrine\ORM\Event\LifecycleEventArgs;
 
 #[UniqueEntity('slug')]
 #[ORM\Entity(repositoryClass: ConferenceRepository::class)]
+#[ApiResource(
+    collectionOperations: ['get' => ['normalization_context' => ['groups' => 'conference:list']]],
+    itemOperations: ['get' => ['normalization_context' => ['groups' => 'conference:item']]],
+    order: ['year' => 'DESC', 'city' => 'ASC'],
+    paginationEnabled: false,
+)]
 class Conference
 {
+    #[Groups(['conference:list', 'conference:item'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
     private $id;
 
+    #[Groups(['conference:list', 'conference:item'])]
     #[ORM\Column(type: 'string', length: 255)]
     private $city;
 
+    #[Groups(['conference:list', 'conference:item'])]
     #[ORM\Column(type: 'string', length: 4)]
     private $year;
 
+    #[Groups(['conference:list', 'conference:item'])]
     #[ORM\Column(type: 'boolean')]
     private $isInternational;
 
+    #[Groups(['conference:list', 'conference:item'])]
     #[ORM\OneToMany(mappedBy: 'conference', targetEntity: Comment::class, orphanRemoval: true)]
     private $comments;
 
+    #[Groups(['conference:list', 'conference:item'])]
     #[ORM\Column(type: 'string', length: 255, nullable: false)]
     private $slug;
 
