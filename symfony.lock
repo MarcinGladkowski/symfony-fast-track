@@ -389,6 +389,18 @@
     "symfony/mime": {
         "version": "v6.0.7"
     },
+    "symfony/notifier": {
+        "version": "6.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "5.0",
+            "ref": "c31585e252b32fe0e1f30b1f256af553f4a06eb9"
+        },
+        "files": [
+            "config/packages/notifier.yaml"
+        ]
+    },
     "symfony/options-resolver": {
         "version": "v6.0.3"
     },
@@ -491,6 +503,15 @@
     },
     "symfony/service-contracts": {
         "version": "v3.0.1"
+    },
+    "symfony/slack-notifier": {
+        "version": "6.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "5.2",
+            "ref": "192bc241a3095c6861353e5a7a652ad35659ca92"
+        }
     },
     "symfony/stopwatch": {
         "version": "v6.0.5"
