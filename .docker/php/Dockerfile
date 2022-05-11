@@ -1,5 +1,8 @@
 FROM php:8.1-fpm
 
+ARG userid
+ARG groupid
+
 RUN apt-get update \
   && apt-get install -y libzip-dev libxslt1-dev git wget --no-install-recommends \
   && apt-get clean \
@@ -14,6 +17,16 @@ RUN apt -y update \
 	&& apt install -y libicu-dev \
 	&& docker-php-ext-configure intl \
 	&& docker-php-ext-install intl
+
+RUN git config --global user.email "example@example.com" \
+        && git config --global user.name "Example"
+
+RUN echo $userid
+
+RUN groupadd -g $userid myuser \
+  	&& useradd -m -u $userid -g $groupid myuser
+
+USER myuser
 
 WORKDIR /var/www
 

@@ -20,6 +20,9 @@ services:
   php-fpm:
     build:
       context: php
+      args:
+        userid: 1000
+        groupid: 1000
     depends_on:
       - db
     volumes:
@@ -28,6 +31,7 @@ services:
       - 9000
     networks:
       - fast_track_network
+
 
   nginx:
     build:
