@@ -10,3 +10,6 @@ build-php:
 
 npm-install:
 	npm install --registry=https://registry.npmjs.org/
+
+run-fe:
+	npm run dev-server
