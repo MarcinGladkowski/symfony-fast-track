@@ -1,3 +1,4 @@
+import {h} from 'preact';
 import {findComments} from '../api/api';
 import {useState, useEffect} from 'preact/hooks';
 
