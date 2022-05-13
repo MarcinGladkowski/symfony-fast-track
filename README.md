@@ -77,3 +77,6 @@ the package will be removed.
   * `setMaxAge()` for browser cache
   * Cache header `x-symfony-cache:` on statuses: `:miss`, `:fresh`, `:store`
   * methods: ['PURGE']. This method not exists in RFC but is implementing by caching tools like Varnish
+
+* ### Translations
+  * Generating translation file for specific language `translation:extract fr --force --domain=messages`
