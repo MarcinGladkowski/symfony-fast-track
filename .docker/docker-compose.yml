@@ -9,8 +9,8 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-passworddb}
       POSTGRES_USER: ${POSTGRES_USER:-symfony}
     volumes:
-    # - db-data:/var/lib/postgresql/data:rw
-    # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
+      # - db-data:/var/lib/postgresql/data:rw
+      # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
       - ./docker/db/data:/var/lib/postgresql/data:rw
     ports:
       - "5432:5432"
@@ -29,9 +29,11 @@ services:
       - ./../:/var/www
     expose:
       - 9000
+    environment:
+      BLACKFIRE_CLIENT_ID: "ce3f4b15-38a1-45b4-8ba1-745b2d66141f"
+      BLACKFIRE_CLIENT_TOKEN: "d05cbe678eb1e3ebd366961f06bd49abe31265a7e9e3a9d26d2e0437d5c118f4"
     networks:
       - fast_track_network
-
 
   nginx:
     build:
@@ -56,5 +58,27 @@ services:
       - "1080:1080"
     networks:
       - fast_track_network
+
+  blackfire:
+    image: blackfire/blackfire:2
+    ports: [ "8307" ]
+    environment:
+      # Exposes BLACKFIRE_* environment variables from the host
+      BLACKFIRE_LOG_LEVEL: 4
+      BLACKFIRE_SERVER_ID: "1f17fd31-afe8-497f-a9d2-997b3bed06ed"
+      BLACKFIRE_SERVER_TOKEN: "74b2e9d3fe508ccf451ee65e6bac25b2c21593d6ecdc27a109e47c98c364fafb"
+      BLACKFIRE_CLIENT_ID: "ce3f4b15-38a1-45b4-8ba1-745b2d66141f"
+      BLACKFIRE_CLIENT_TOKEN: "d05cbe678eb1e3ebd366961f06bd49abe31265a7e9e3a9d26d2e0437d5c118f4"
+    networks:
+      - fast_track_network
+
+  redis:
+    image: redis:5.0.6
+    command: redis-server --requirepass password
+    ports:
+      - "6379:6379"
+    networks:
+      - fast_track_network
+
 networks:
   fast_track_network:
