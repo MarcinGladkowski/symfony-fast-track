@@ -29,9 +29,8 @@ services:
       - ./../:/var/www
     expose:
       - 9000
-    environment:
-      BLACKFIRE_CLIENT_ID: "ce3f4b15-38a1-45b4-8ba1-745b2d66141f"
-      BLACKFIRE_CLIENT_TOKEN: "d05cbe678eb1e3ebd366961f06bd49abe31265a7e9e3a9d26d2e0437d5c118f4"
+    env_file:
+      - ./../.env.local
     networks:
       - fast_track_network
 
@@ -62,13 +61,8 @@ services:
   blackfire:
     image: blackfire/blackfire:2
     ports: [ "8307" ]
-    environment:
-      # Exposes BLACKFIRE_* environment variables from the host
-      BLACKFIRE_LOG_LEVEL: 4
-      BLACKFIRE_SERVER_ID: "1f17fd31-afe8-497f-a9d2-997b3bed06ed"
-      BLACKFIRE_SERVER_TOKEN: "74b2e9d3fe508ccf451ee65e6bac25b2c21593d6ecdc27a109e47c98c364fafb"
-      BLACKFIRE_CLIENT_ID: "ce3f4b15-38a1-45b4-8ba1-745b2d66141f"
-      BLACKFIRE_CLIENT_TOKEN: "d05cbe678eb1e3ebd366961f06bd49abe31265a7e9e3a9d26d2e0437d5c118f4"
+    env_file:
+      - ./../.env.local
     networks:
       - fast_track_network
 
@@ -79,6 +73,20 @@ services:
       - "6379:6379"
     networks:
       - fast_track_network
+
+  rabbitmq:
+    image: rabbitmq:3.8-management-alpine
+    environment:
+      - RABBITMQ_DEFAULT_USER=myuser
+      - RABBITMQ_DEFAULT_PASS=mypassword
+    ports:
+      # AMQP protocol port
+      - '5672:5672'
+      # HTTP management UI
+      - '15672:15672'
+    networks:
+      - fast_track_network
+
 
 networks:
   fast_track_network:
